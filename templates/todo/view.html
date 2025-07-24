@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Task</title>
+    <style>
+        body { font-family: Arial; background: #f0f2f5; padding: 20px; }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #343a40; }
+        .details { margin-top: 20px; }
+        .label { font-weight: bold; color: #555; }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Task Details</h2>
+    <div class="details">
+        <p><span class="label">Title:</span> {{ task.title }}</p>
+        <p><span class="label">Status:</span> {{ task.complete|yesno:'Complete,Incomplete' }}</p>
+        <p><span class="label">Created:</span> {{ task.created }}</p>
+    </div>
+    <a href="/" class="back-btn">Back to List</a>
+</div>
+</body>
+</html>

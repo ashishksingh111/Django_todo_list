@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App - Django CRUD</title>
+    <style>
+         * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e2e5e6ff;
+            padding: 10px;
+        }
+        .container {
+            background: rgba(213, 213, 216, 1);
+            padding: 40px;
+            max-width: 700px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(240, 239, 239, 0.413);
+        }
+        h1 {
+            text-align: center;
+            color: #606366ff;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .add-btn { background-color: #28a745; color: white; }
+        .add-btn:hover { background-color: #218838; }
+        .update-btn { background-color: #007bff; color: white; }
+        .update-btn:hover { background-color: #0069d9; }
+        .edit-btn { background-color: #ffc107; color: white; }
+        .edit-btn:hover { background-color: #e0a800; }
+        .delete-btn { background-color: #dc3545; color: white; }
+        .delete-btn:hover { background-color: #c82333; }
+        .view-btn { background-color: #6c757d; color: white; }
+        .view-btn:hover { background-color: #5a6268; }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+        }
+        .task-title {
+            flex: 1;
+            font-size: 17px;
+            color: #495057;
+        }
+        .task-title s {
+            color: #adb5bd;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📝 My To-Do List</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter a new task" required>
+        <button type="submit" class="add-btn">Add Task</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <div class="task-title">{% if task.complete %}<s>{{ task.title }}</s>{% else %}{{ task.title }}{% endif %}</div>
+            <div class="actions">
+                <form action="{% url 'update' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="update-btn">Mark as {% if task.complete %}Incomplete{% else %}Complete{% endif %}</button>
+                </form>
+                <form action="{% url 'edit' task.id %}" method="GET">
+                    <button class="edit-btn">Edit</button>
+                </form>
+                <form action="{% url 'delete' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="delete-btn">Delete</button>
+                </form>
+                <form action="{% url 'view' task.id %}" method="GET">
+                    <button class="view-btn">View</button>
+                </form>
+            </div>
+        </li>
+        {% empty %}
+        <li>No tasks yet. Add some!</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
